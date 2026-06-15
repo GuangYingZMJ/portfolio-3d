@@ -5,25 +5,20 @@
     <link rel="icon" type="image/svg+xml" href="/portfolio-3d/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>常逸文 — Blender / UE5 / AE 作品集</title>
+    <meta name="description" content="常逸文个人作品集 — Blender 三维建模 / UE5 实时渲染 / AE 动态视觉设计" />
+
+    <!-- Preload critical resources -->
+    <link rel="preload" as="image" href="/portfolio-3d/hero.jpg" />
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" />
+    
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
-    <!-- SVG 滤镜：手绘描边粗糙感 -->
-    <svg style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true">
-      <filter id="rough-edge">
-        <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="4" result="noise" />
-        <feDisplacementMap in="SourceGraphic" in2="noise" scale="2.5" xChannelSelector="R" yChannelSelector="G" />
-      </filter>
-      <filter id="paper-texture">
-        <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="4" result="noise" />
-        <feColorMatrix type="saturate" values="0" in="noise" result="grayNoise" />
-        <feBlend in="SourceGraphic" in2="grayNoise" mode="multiply" />
-      </filter>
-    </svg>
-    <script type="module" crossorigin src="/portfolio-3d/assets/index-QF6gNRN6.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" /></noscript>
+    <script type="module" crossorigin src="/portfolio-3d/assets/index-mIHJqRrI.js"></script>
     <link rel="stylesheet" crossorigin href="/portfolio-3d/assets/index-CiDiZp5v.css">
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root"></div>
   </body>
 </html>
