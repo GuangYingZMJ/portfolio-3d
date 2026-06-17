@@ -60,7 +60,7 @@ body.shape-grid-active .contact {
 }
 
 body.shape-grid-active .shape-grid-bg {
-  opacity: 1;
+  opacity: 0.5;
 }
 
 .shape-grid-bg canvas {
