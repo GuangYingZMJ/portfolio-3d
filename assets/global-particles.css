@@ -1,0 +1,23 @@
+.global-particles {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.72;
+  mix-blend-mode: screen;
+}
+
+body #root {
+  position: relative;
+  z-index: 2;
+}
+
+body.shape-grid-active #root {
+  z-index: 2;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .global-particles {
+    display: none;
+  }
+}
