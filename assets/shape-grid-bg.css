@@ -38,6 +38,10 @@ body.shape-grid-active .works-card-placeholder {
   color: rgba(242, 242, 242, 0.72);
 }
 
+.aux-tag {
+  background: var(--bg-primary, #0a0a0d);
+}
+
 body.shape-grid-active .about-wrap,
 body.shape-grid-active .projects,
 body.shape-grid-active .contact {
