@@ -1,0 +1,77 @@
+body.shape-grid-active {
+  background: #0d0a12;
+}
+
+body.shape-grid-active .detail-page {
+  position: relative;
+  background: transparent;
+}
+
+body.shape-grid-active .detail-inner {
+  position: relative;
+  z-index: 2;
+}
+
+body.shape-grid-active .sidebar-block,
+body.shape-grid-active .gallery-item,
+body.shape-grid-active .detail-hero-img-wrap {
+  background: rgba(16, 14, 22, 0.78);
+  border-color: rgba(167, 139, 250, 0.18);
+  box-shadow: 0 18px 60px rgba(0, 0, 0, 0.28);
+}
+
+.shape-grid-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 420ms ease;
+  background:
+    radial-gradient(circle at 48% 30%, rgba(138, 92, 246, 0.12), transparent 31rem),
+    radial-gradient(circle at 62% 68%, rgba(68, 214, 44, 0.07), transparent 28rem),
+    #0d0a12;
+}
+
+body.shape-grid-active .shape-grid-bg {
+  opacity: 1;
+}
+
+.shape-grid-bg canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.shape-grid-bg::before,
+.shape-grid-bg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.shape-grid-bg::before {
+  background:
+    linear-gradient(90deg, rgba(13, 10, 18, 0.9), transparent 16%, transparent 84%, rgba(13, 10, 18, 0.92)),
+    linear-gradient(180deg, rgba(13, 10, 18, 0.34), transparent 28%, rgba(13, 10, 18, 0.72));
+}
+
+.shape-grid-bg::after {
+  opacity: 0.14;
+  mix-blend-mode: screen;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.7' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E");
+  background-size: 100% 4px, 180px 180px;
+}
+
+body.shape-grid-active .navbar {
+  background: linear-gradient(180deg, rgba(13, 10, 18, 0.86), rgba(13, 10, 18, 0.34));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .shape-grid-bg {
+    transition: none;
+  }
+}
