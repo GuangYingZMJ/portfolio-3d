@@ -1,5 +1,5 @@
 (function () {
-  var TARGET_PATH = "/portfolio-3d/works/unreal-scene";
+  var BASE_PATH = "/portfolio-3d";
   var layer;
   var canvas;
   var ctx;
@@ -11,7 +11,7 @@
 
   function matchesTarget() {
     var path = window.location.pathname.replace(/\/$/, "");
-    return path === TARGET_PATH;
+    return path === BASE_PATH || path.indexOf(BASE_PATH + "/") === 0;
   }
 
   function installRouteHooks() {
@@ -57,22 +57,22 @@
 
   function seedCells() {
     cells = [];
-    var gap = width < 760 ? 32 : 42;
+    var gap = width < 760 ? 28 : 38;
     var cols = Math.ceil(width / gap) + 3;
     var rows = Math.ceil(height / gap) + 3;
     for (var y = -1; y < rows; y++) {
       for (var x = -1; x < cols; x++) {
         var seed = Math.sin((x * 73.21 + y * 41.77) * 12.9898) * 43758.5453;
         var random = seed - Math.floor(seed);
-        if (random < 0.26) {
+        if (random < 0.44) {
           cells.push({
             x: x * gap,
             y: y * gap,
-            size: gap * (0.42 + random * 0.52),
+            size: gap * (0.44 + random * 0.7),
             delay: random * Math.PI * 2,
-            speed: 0.34 + random * 0.42,
+            speed: 0.62 + random * 0.86,
             angle: random > 0.66 ? Math.PI / 4 : 0,
-            alpha: 0.18 + random * 0.32
+            alpha: 0.28 + random * 0.46
           });
         }
       }
@@ -82,15 +82,29 @@
   function drawGrid(time) {
     var t = time * 0.001;
     ctx.clearRect(0, 0, width, height);
-    ctx.fillStyle = "#0d0a12";
+    ctx.fillStyle = "#100b18";
     ctx.fillRect(0, 0, width, height);
 
-    var gap = width < 760 ? 32 : 42;
-    var drift = (t * 10) % gap;
+    var gap = width < 760 ? 28 : 38;
+    var drift = (t * 24) % gap;
+
+    var bloomA = ctx.createRadialGradient(width * 0.28, height * (0.26 + Math.sin(t * 0.28) * 0.08), 0, width * 0.28, height * 0.3, width * 0.62);
+    bloomA.addColorStop(0, "rgba(166, 103, 255, 0.18)");
+    bloomA.addColorStop(0.44, "rgba(88, 61, 150, 0.08)");
+    bloomA.addColorStop(1, "rgba(16, 11, 24, 0)");
+    ctx.fillStyle = bloomA;
+    ctx.fillRect(0, 0, width, height);
+
+    var bloomB = ctx.createRadialGradient(width * (0.68 + Math.cos(t * 0.22) * 0.06), height * 0.72, 0, width * 0.68, height * 0.72, width * 0.54);
+    bloomB.addColorStop(0, "rgba(68, 214, 44, 0.12)");
+    bloomB.addColorStop(0.5, "rgba(68, 214, 44, 0.045)");
+    bloomB.addColorStop(1, "rgba(16, 11, 24, 0)");
+    ctx.fillStyle = bloomB;
+    ctx.fillRect(0, 0, width, height);
 
     ctx.save();
     ctx.translate(-drift, -drift * 0.45);
-    ctx.strokeStyle = "rgba(194, 181, 255, 0.13)";
+    ctx.strokeStyle = "rgba(204, 190, 255, 0.23)";
     ctx.lineWidth = 1;
     for (var x = -gap; x < width + gap * 2; x += gap) {
       ctx.beginPath();
@@ -108,26 +122,41 @@
 
     cells.forEach(function (cell) {
       var pulse = (Math.sin(t * cell.speed + cell.delay) + 1) * 0.5;
-      var offset = Math.sin(t * 0.42 + cell.delay) * 8;
-      var size = cell.size * (0.74 + pulse * 0.32);
+      var offset = Math.sin(t * 0.86 + cell.delay) * 14;
+      var size = cell.size * (0.68 + pulse * 0.46);
       var x = cell.x + offset - drift;
       var y = cell.y - offset * 0.6 - drift * 0.45;
       ctx.save();
       ctx.translate(x + size / 2, y + size / 2);
       ctx.rotate(cell.angle);
-      ctx.globalAlpha = cell.alpha * (0.45 + pulse * 0.55);
-      ctx.fillStyle = pulse > 0.62 ? "rgba(170, 128, 255, 0.42)" : "rgba(49, 44, 64, 0.72)";
-      ctx.strokeStyle = pulse > 0.62 ? "rgba(214, 197, 255, 0.52)" : "rgba(155, 136, 204, 0.18)";
+      ctx.globalAlpha = cell.alpha * (0.55 + pulse * 0.75);
+      ctx.shadowBlur = 10 + pulse * 20;
+      ctx.shadowColor = pulse > 0.56 ? "rgba(180, 132, 255, 0.72)" : "rgba(112, 94, 178, 0.38)";
+      ctx.fillStyle = pulse > 0.56 ? "rgba(178, 121, 255, 0.62)" : "rgba(58, 50, 82, 0.86)";
+      ctx.strokeStyle = pulse > 0.56 ? "rgba(234, 222, 255, 0.76)" : "rgba(174, 151, 236, 0.34)";
       ctx.lineWidth = 1;
       ctx.fillRect(-size / 2, -size / 2, size, size);
       ctx.strokeRect(-size / 2, -size / 2, size, size);
       ctx.restore();
     });
 
+    ctx.save();
+    ctx.globalCompositeOperation = "screen";
+    ctx.strokeStyle = "rgba(178, 121, 255, 0.18)";
+    ctx.lineWidth = 2;
+    for (var band = -height; band < width + height; band += gap * 5) {
+      var bandOffset = (band + t * 36) % (width + height);
+      ctx.beginPath();
+      ctx.moveTo(bandOffset - height, height);
+      ctx.lineTo(bandOffset, 0);
+      ctx.stroke();
+    }
+    ctx.restore();
+
     var vignette = ctx.createRadialGradient(width * 0.5, height * 0.45, 0, width * 0.5, height * 0.45, Math.max(width, height) * 0.72);
     vignette.addColorStop(0, "rgba(13, 10, 18, 0)");
     vignette.addColorStop(0.62, "rgba(13, 10, 18, 0.1)");
-    vignette.addColorStop(1, "rgba(13, 10, 18, 0.84)");
+    vignette.addColorStop(1, "rgba(13, 10, 18, 0.68)");
     ctx.fillStyle = vignette;
     ctx.fillRect(0, 0, width, height);
 
