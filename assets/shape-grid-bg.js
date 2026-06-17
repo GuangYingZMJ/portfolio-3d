@@ -11,7 +11,7 @@
 
   function matchesTarget() {
     var path = window.location.pathname.replace(/\/$/, "");
-    return path === BASE_PATH || path.indexOf(BASE_PATH + "/") === 0;
+    return path === BASE_PATH + "/works" || path.indexOf(BASE_PATH + "/works/") === 0;
   }
 
   function installRouteHooks() {
